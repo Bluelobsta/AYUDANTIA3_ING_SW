@@ -10,7 +10,7 @@ export const getAllProducts = async (req, res, next) => {
 
     const where = {};
 
-    if (categoryId) {
+    if (categoryId !== undefined) {
       where.categoryId = Number(categoryId);
     }
 
@@ -21,7 +21,7 @@ export const getAllProducts = async (req, res, next) => {
     }
 
     if (inStock !== undefined) {
-      const onlyInStock = inStock === 'true';
+      const onlyInStock = inStock === true || inStock === 'true';
       where.stock = onlyInStock ? { gt: 0 } : 0;
     }
 
