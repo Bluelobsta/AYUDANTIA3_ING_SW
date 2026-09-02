@@ -104,3 +104,78 @@ DELETE {{baseUrl}}/products/4
 
 ### 16. Intentar eliminar una categoría que TIENE productos asociados (Error 400 por restricción de integridad)
 DELETE {{baseUrl}}/categories/1
+
+### =================================================================
+### SECCIÓN 3: MARCAS
+### =================================================================
+
+### 17. Listar marcas con su cantidad de productos
+GET {{baseUrl}}/brands
+
+### 18. Crear una marca (ÉXITO 201)
+POST {{baseUrl}}/brands
+Content-Type: application/json
+
+{
+  "name": "Logitech",
+  "country": "Suiza",
+  "website": "https://www.logitech.com"
+}
+
+### 19. Intentar crear una marca con ERROR DE VALIDACIÓN ZOD (Error 400)
+POST {{baseUrl}}/brands
+Content-Type: application/json
+
+{
+  "name": "A",
+  "website": "sitio-invalido"
+}
+
+### 20. Intentar crear una marca DUPLICADA (Error 409)
+POST {{baseUrl}}/brands
+Content-Type: application/json
+
+{
+  "name": "Logitech",
+  "country": "Suiza"
+}
+
+### 21. Filtrar productos por marca
+GET {{baseUrl}}/products?brandId=1
+
+### =================================================================
+### SECCIÓN 4: RESEÑAS
+### =================================================================
+
+### 22. Crear la primera reseña de un producto (ÉXITO 201)
+POST {{baseUrl}}/products/1/reviews
+Content-Type: application/json
+
+{
+  "author": "Ana Pérez",
+  "rating": 5,
+  "comment": "Excelente producto, superó mis expectativas."
+}
+
+### 23. Crear una segunda reseña para comprobar el promedio
+POST {{baseUrl}}/products/1/reviews
+Content-Type: application/json
+
+{
+  "author": "Luis Soto",
+  "rating": 4,
+  "comment": "Muy buen producto y llegó en perfecto estado."
+}
+
+### 24. Obtener reseñas y promedio (averageRating esperado: 4.5)
+GET {{baseUrl}}/products/1/reviews
+
+### 25. Intentar reseñar un producto inexistente (Error 404)
+POST {{baseUrl}}/products/999999/reviews
+Content-Type: application/json
+
+{
+  "author": "Ana Pérez",
+  "rating": 5,
+  "comment": "Este comentario tiene más de diez caracteres."
+}
