@@ -2,6 +2,7 @@ import { Router } from 'express';
 import brandRoutes from './brand.routes.js';
 import categoryRoutes from './category.routes.js';
 import productRoutes from './product.routes.js';
+import reviewRoutes from './review.routes.js';
 
 const apiRouter = Router();
 
@@ -17,6 +18,7 @@ apiRouter.get('/health', (req, res) => {
 // Enrutadores modulares
 apiRouter.use('/brands', brandRoutes);
 apiRouter.use('/categories', categoryRoutes);
+apiRouter.use('/products/:id/reviews', reviewRoutes);
 apiRouter.use('/products', productRoutes);
 
 export default apiRouter;
