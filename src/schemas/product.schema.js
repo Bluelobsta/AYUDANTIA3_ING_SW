@@ -32,7 +32,12 @@ export const createProductSchema = z.object({
   categoryId: z
     .number({ required_error: 'El ID de la categoría es obligatorio' })
     .int('El ID de categoría debe ser un número entero')
-    .positive('El ID de categoría debe ser positivo')
+    .positive('El ID de categoría debe ser positivo'),
+  brandId: z
+    .number()
+    .int('El ID de marca debe ser un número entero')
+    .positive('El ID de marca debe ser positivo')
+    .optional()
 });
 
 // Esquema para actualizar un producto (PUT / PATCH)
@@ -46,9 +51,14 @@ export const productIdParamSchema = z.object({
     .transform(Number)
 });
 
-// Esquema para validar filtros en la URL (?minPrice=&maxPrice=&categoryId=&inStock=)
+// Esquema para validar filtros en la URL (?minPrice=&maxPrice=&categoryId=&brandId=&inStock=)
 export const productQuerySchema = z.object({
   categoryId: z.string().regex(/^\d+$/).transform(Number).optional(),
+  brandId: z
+    .string()
+    .regex(/^[1-9]\d*$/, 'El ID de marca debe ser un número entero positivo')
+    .transform(Number)
+    .optional(),
   minPrice: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).optional(),
   maxPrice: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).optional(),
   inStock: z.enum(['true', 'false']).transform((val) => val === 'true').optional()
